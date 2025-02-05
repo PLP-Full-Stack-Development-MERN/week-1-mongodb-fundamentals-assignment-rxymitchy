@@ -9,10 +9,13 @@
     ...   { _id: 6, title: "Harry Potter and the Philosopher's Stone", author: "J.K. Rowling", publishedYear: 1997, genre: "Fantasy", ISBN: "1234567893" },
     ...   { _id: 7, title: "The Road", author: "Cormac McCarthy", publishedYear: 2006, genre: "Post-apocalyptic", ISBN: "1234567894" }
     ... ]);
+
     {
       acknowledged: true,
       insertedIds: { '0': 3, '1': 4, '2': 5, '3': 6, '4': 7 }
     }
+
+
     library> db.books.find();
     [
       {
@@ -72,6 +75,8 @@
         ISBN: '1234567894'
       }
     ]
+
+
     library> db.books.find({publishedYear: {$gt:2000}});
     [
       {
@@ -100,8 +105,11 @@
       }
     ]
 
+
+
     library> db.books.deleteOne({ ISBN: "9780743273565" });
     { acknowledged: true, deletedCount: 1 }
+
     library> db.books.find();
     [
       {
@@ -153,6 +161,8 @@
         ISBN: '1234567894'
       }
     ]
+
+
     library> db.books.updateOne({author: "J.K. Rowling"}, {$set: {publishedYear: 2005}});
     {
       acknowledged: true,
@@ -161,6 +171,8 @@
       modifiedCount: 1,
       upsertedCount: 0
     }
+
+
     library> db.books.find();
     [
       {
@@ -212,11 +224,8 @@
         ISBN: '1234567894'
       }
     ]
-    library> db.books.update({}, {rating: 8});
-    DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
-    MongoInvalidArgumentError: Update document requires atomic operators
-    library> db.books.updateMany({}, {rating: 8});
-    MongoInvalidArgumentError: Update document requires atomic operators
+
+
     library> db.books.updateMany({}, {$set: {rating: 8}});
     {
       acknowledged: true,
@@ -225,6 +234,7 @@
       modifiedCount: 6,
       upsertedCount: 0
     }
+
     library> db.books.find();
     [
       {
@@ -282,8 +292,11 @@
         rating: 8
       }
     ]
+
+
     library> db.books.deleteMany({ genre: "Post-apocalyptic"});
     { acknowledged: true, deletedCount: 1 }
+
     library> db.books.find();
     [
       {
@@ -332,6 +345,8 @@
         rating: 8
       }
     ]
+
+
     library> db.books.aggregate([
     ... {$group : {_id: "$genre" , count: {$sum: 1}}}
     ... ]);
@@ -341,6 +356,8 @@
       { _id: 'Fiction', count: 2 },
       { _id: 'fiction', count: 1 }
     ]
+
+
     library> db.books.updateOne({publishedYear:2015}, {$set:{genre:"Fiction"}});
     {
       acknowledged: true,
@@ -349,6 +366,8 @@
       modifiedCount: 1,
       upsertedCount: 0
     }
+
+
     library> db.books.aggregate([ { $group: { _id: "$genre", count: { $sum: 1 } } }] );
     [
       { _id: 'Dystopian', count: 1 },
@@ -356,9 +375,12 @@
       { _id: 'Fiction', count: 3 }
     ]
 
+
     library> db.books.aggregate([
     ...   { $group: { _id: null, avgPublishedYear: { $avg: "$publishedYear" } } }
     ... ]);
+
+
     [ { _id: null, avgPublishedYear: 1970.8 } ]
     library> db.books.aggregate([
     ...   { $sort: { rating: -1 } },
@@ -375,5 +397,7 @@
         rating: 8
       }
     ]
+
+    
     library> db.books.createIndex({ author: 1 });
     author_1
