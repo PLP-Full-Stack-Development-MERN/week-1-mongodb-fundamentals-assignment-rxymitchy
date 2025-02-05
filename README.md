@@ -50,32 +50,32 @@ Create the books collection and insert sample data with custom _id fields:
 Step 3: CRUD Operations
 Retrieve All Books
 
-db.books.find();
+      db.books.find();
 
 Query Books by Author
 
-db.books.find({ author: "George Orwell" });
+      db.books.find({ author: "George Orwell" });
 
 Find Books Published After 2000
 
-db.books.find({ publishedYear: { $gt: 2000 } });
+      db.books.find({ publishedYear: { $gt: 2000 } });
 
 Update Published Year of a Book
 
-db.books.updateOne({author: "J.K. Rowling"}, {$set: {publishedYear: 2005}});
+      db.books.updateOne({author: "J.K. Rowling"}, {$set: {publishedYear: 2005}});
 
 Add a New Field (rating) to All Books
 
-db.books.updateMany({}, { $set: { rating: 8 } });
+      db.books.updateMany({}, { $set: { rating: 8 } });
 
 Step 4: Delete Data
 Delete a Book by ISBN
 
-db.books.deleteOne({ ISBN: "9780743273565" });
+      db.books.deleteOne({ ISBN: "9780743273565" });
 
 Remove All Books of a Specific Genre
 
-db.books.deleteMany({ genre: "Post-apocalyptic" });
+      db.books.deleteMany({ genre: "Post-apocalyptic" });
 
 Step 5: Data Modeling for an E-Commerce Platform
 Collections:
@@ -92,24 +92,24 @@ Collections:
 Step 6: Aggregation Examples
 Total Number of Books per Genre
 
-db.books.aggregate([
-  { $group: { _id: "$genre", totalBooks: { $sum: 1 } } }
-]);
+      db.books.aggregate([
+      { $group: { _id: "$genre", totalBooks: { $sum: 1 } } }
+      ]);
 
 Calculate Average Published Year
 
-db.books.aggregate([
-  { $group: { _id: null, avgPublishedYear: { $avg: "$publishedYear" } } }
-]);
+      db.books.aggregate([
+      { $group: { _id: null, avgPublishedYear: { $avg: "$publishedYear" } } }
+      ]);
 
 Identify the Top-Rated Book
 
-db.books.find().sort({ rating: -1 }).limit(1);
+      db.books.find().sort({ rating: -1 }).limit(1);
 
 Step 7: Indexing
 Create an Index on the author Field
 
-db.books.createIndex({ author: 1 });
+      db.books.createIndex({ author: 1 });
 
 Benefits of Indexing
 
