@@ -1,84 +1,125 @@
-**Week 1: MongoDB Fundamentals Assignment**
+MongoDB Week 1 Assignment
+Objective
 
-**Objective:**
+The goal of this assignment is to learn and apply MongoDB fundamentals by performing various CRUD operations, data modeling, and aggregation on a library database.
+Prerequisites
 
-- Apply MongoDB concepts learned throughout the week.
-- Practice working with databases, collections, and documents.
-- Develop skills in CRUD operations and data modeling.
+    MongoDB installed locally or a free cluster on MongoDB Atlas.
+    MongoDB Shell (mongosh) installed.
+    Basic knowledge of MongoDB commands.
 
-**Instructions:**
+Step 1: Setup MongoDB
+Option 1: Install MongoDB Locally
 
-1. **Setup MongoDB:**
+    Download MongoDB from https://www.mongodb.com/try/download/community.
+    Follow the installation guide for your operating system.
+    Start the MongoDB server using the command:
 
-   - Install MongoDB locally or create a free cluster on MongoDB Atlas.
-   - Start the MongoDB server locally or connect to the MongoDB Atlas cluster.
-   - Verify the installation and connection by running:
-     ```sh
-     mongo --version
-     ```
+    mongod
 
-2. **Database and Collection Creation:**
+Verify the installation by running:
 
-   - Create a new database called `library`.
-   - Inside `library`, create a collection named `books`.
+    mongo --version
 
-3. **Insert Data:**
+Option 2: Use MongoDB Atlas
 
-   - Insert at least five book records into the `books` collection.
-   - Each book should contain fields such as `title`, `author`, `publishedYear`, `genre`, and `ISBN`.
+    Go to https://www.mongodb.com/cloud/atlas and create an account.
+    Create a new cluster.
+    Connect to your cluster using the connection string provided by MongoDB Atlas.
 
-4. **Retrieve Data:**
+Step 2: Create Database and Collection
+Create a library Database and books Collection
 
-   - Retrieve all books from the collection.
-   - Query books based on a specific author.
-   - Find books published after the year 2000.
+    Open the MongoDB Shell (mongosh).
+    Create the library database and switch to it:
 
-5. **Update Data:**
+use library
 
-   - Update the `publishedYear` of a specific book.
-   - Add a new field called `rating` to all books and set a default value.
+Create the books collection and insert sample data with custom _id fields:
 
-6. **Delete Data:**
+    db.books.insertMany([
+      {_id: 1,title: "Harry Potter",author: "JK Rowling",publishedYear: 2012,genre: "fiction",ISBN:"9780743273565"},
+      {_id: 2,title: "A thousand Splendind Suns",author: "Khaled Hosseini",publishedYear: 2015,genre: "fiction",ISBN:"9780061120084" },
+      { _id: 3, title: "1984", author: "George Orwell", publishedYear: 1949, genre: "Dystopian", ISBN: "1234567890" },
+      { _id: 4, title: "To Kill a Mockingbird", author: "Harper Lee", publishedYear: 1960, genre: "Fiction", ISBN: "1234567891" },
+      { _id: 5, title: "The Great Gatsby", author: "F. Scott Fitzgerald", publishedYear: 1925, genre: "Fiction", ISBN: "1234567892" },
+      { _id: 6, title: "Harry Potter and the Philosopher's Stone", author: "J.K. Rowling", publishedYear: 1997, genre: "Fantasy", ISBN: "1234567893" },
+      { _id: 7, title: "The Road", author: "Cormac McCarthy", publishedYear: 2006, genre: "Post-apocalyptic", ISBN: "1234567894" }
+    ]);
 
-   - Delete a book by its `ISBN`.
-   - Remove all books of a particular genre.
+Step 3: CRUD Operations
+Retrieve All Books
 
-7. **Data Modeling Exercise:**
+db.books.find();
 
-   - Create a data model for an e-commerce platform including collections for `users`, `orders`, and `products`.
-   - Decide on appropriate fields and relationships (embedding vs. referencing).
-   - Implement the structure using MongoDB.
+Query Books by Author
 
-8. **Aggregation Pipeline:**
+db.books.find({ author: "George Orwell" });
 
-   - Use aggregation to find the total number of books per genre.
-   - Calculate the average published year of all books.
-   - Identify the top-rated book.
+Find Books Published After 2000
 
-9. **Indexing:**
+db.books.find({ publishedYear: { $gt: 2000 } });
 
-   - Create an index on the `author` field to optimize query performance.
-   - Explain the benefits of indexing in MongoDB.
+Update Published Year of a Book
 
-10. **Testing:**
+db.books.updateOne({author: "J.K. Rowling"}, {$set: {publishedYear: 2005}});
 
-   - Use the MongoDB shell or Compass to verify the inserted and updated records.
-   - Ensure all queries return the expected results.
+Add a New Field (rating) to All Books
 
-11. **Documentation:**
+db.books.updateMany({}, { $set: { rating: 8 } });
 
-   - Create a `README.md` file with step-by-step instructions on setting up and running your database.
+Step 4: Delete Data
+Delete a Book by ISBN
 
-12. **Submission:**
+db.books.deleteOne({ ISBN: "9780743273565" });
 
-   - Push your code and scripts to your GitHub repository.
+Remove All Books of a Specific Genre
 
-**Evaluation Criteria:**
+db.books.deleteMany({ genre: "Post-apocalyptic" });
 
-- Proper setup and connection of MongoDB.
-- Accurate implementation of CRUD operations.
-- Correct data modeling with appropriate relationships.
-- Use of aggregation for insightful queries.
-- Clear and concise documentation.
-- Proper indexing implementation.
+Step 5: Data Modeling for an E-Commerce Platform
+Collections:
+
+    Users
+        Fields: userId, name, email, address, createdAt
+
+    Products
+        Fields: productId, name, description, price, category, stock
+
+    Orders
+        Fields: orderId, userId (reference to Users), products (array of product references), totalAmount, orderDate
+
+Step 6: Aggregation Examples
+Total Number of Books per Genre
+
+db.books.aggregate([
+  { $group: { _id: "$genre", totalBooks: { $sum: 1 } } }
+]);
+
+Calculate Average Published Year
+
+db.books.aggregate([
+  { $group: { _id: null, avgPublishedYear: { $avg: "$publishedYear" } } }
+]);
+
+Identify the Top-Rated Book
+
+db.books.find().sort({ rating: -1 }).limit(1);
+
+Step 7: Indexing
+Create an Index on the author Field
+
+db.books.createIndex({ author: 1 });
+
+Benefits of Indexing
+
+    Improves Query Performance: Speeds up search operations.
+    Reduces Scan Time: Prevents MongoDB from scanning all documents.
+    Efficient Sorting: Helps with sorting large collections quickly.
+
+Step 8: Testing and Verification
+
+    Use the MongoDB shell or Compass to test all operations.
+    Verify that your queries return the expected results.
+    Ensure that updates and deletions are correctly applied.
 

@@ -1,0 +1,45 @@
+[{
+  "_id": 2,
+  "title": "A thousand Splendind Suns",
+  "author": "Khaled Hosseini",
+  "publishedYear": 2015,
+  "genre": "Fiction",
+  "ISBN": "9780061120084",
+  "rating": 8
+},
+{
+  "_id": 3,
+  "title": "1984",
+  "author": "George Orwell",
+  "publishedYear": 1949,
+  "genre": "Dystopian",
+  "ISBN": "1234567890",
+  "rating": 8
+},
+{
+  "_id": 4,
+  "title": "To Kill a Mockingbird",
+  "author": "Harper Lee",
+  "publishedYear": 1960,
+  "genre": "Fiction",
+  "ISBN": "1234567891",
+  "rating": 8
+},
+{
+  "_id": 5,
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "publishedYear": 1925,
+  "genre": "Fiction",
+  "ISBN": "1234567892",
+  "rating": 8
+},
+{
+  "_id": 6,
+  "title": "Harry Potter and the Philosopher's Stone",
+  "author": "J.K. Rowling",
+  "publishedYear": 2005,
+  "genre": "Fantasy",
+  "ISBN": "1234567893",
+  "rating": 8
+}]
